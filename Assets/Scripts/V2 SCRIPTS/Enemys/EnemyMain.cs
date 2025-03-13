@@ -28,12 +28,7 @@ public class EnemyMain : MonoBehaviour
     #region EnemyStateControl
 
     void Awake(){
-        GameObject[] _players = GameObject.FindGameObjectsWithTag("Player");
-        players = new Transform[_players.Length];
-        for (int i = 0; i < _players.Length; i++)
-        {
-            players[i] = _players[i].transform;
-        }
+        InicializePlayer();
     }
     void Start()
     {
@@ -104,6 +99,16 @@ public class EnemyMain : MonoBehaviour
         }else{
             lifeBehaviour.enabled = true;
         }
+    }
+
+    public void InicializePlayer(){
+        GameObject[] _players = GameObject.FindGameObjectsWithTag("Player");
+        players = new Transform[_players.Length];
+        for (int i = 0; i < _players.Length; i++)
+        {
+            players[i] = _players[i].transform;
+        }
+        //ChangeCurrentState(EnemyState.Idle);
     }
     #endregion
 }

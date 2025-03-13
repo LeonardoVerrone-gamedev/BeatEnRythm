@@ -42,7 +42,7 @@ public class BasicAttack1Behaviour : MonoBehaviour
             {
                 if (collider.gameObject.GetComponent<PlayerControl>() != null)
                 {
-                    collider.gameObject.GetComponent<PlayerControl>().TakeDamage(dano);
+                    collider.gameObject.GetComponent<PlayerControl>().TakeDamage(dano * enemyMain.players.Length);
                 }
             }
         }

@@ -33,22 +33,37 @@ public class BasicIdleBehaviour : MonoBehaviour
                 enemyMain.ChangeCurrentState(EnemyMain.EnemyState.Approach);
             }
         }else{
-            SetTarget();
-            StartCoroutine(Idle());
+            StartCoroutine(TrySetTarget());
+            yield break;
         }
     }
 
-    void SetTarget(){
-        if(enemyMain.players.Length > 1){
-            if(Vector3.Distance(enemyMain.players[0].position, transform.position) < Vector3.Distance(enemyMain.players[1].position, transform.position)){
+    IEnumerator TrySetTarget() {
+        while (true) {
+            SetTarget();
+            if (enemyMain.player != null) {
+                // Se um jogador foi encontrado, pare a Coroutine
+                StartCoroutine(Idle());
+                yield break; // Isso sai da Coroutine
+            }
+            yield return new WaitForSeconds(1f); // Espera 1 segundo antes de tentar novamente
+        }
+    }
+
+    void SetTarget() {
+        if (enemyMain.players.Length > 1) {
+            if (Vector3.Distance(enemyMain.players[0].position, transform.position) < Vector3.Distance(enemyMain.players[1].position, transform.position)) {
                 enemyMain.player = enemyMain.players[0];
                 enemyMain.otherPlayer = enemyMain.players[1];
-            }else{
+            } else {
                 enemyMain.player = enemyMain.players[1];
                 enemyMain.otherPlayer = enemyMain.players[0];
             }
-        }else{
+        } else if (enemyMain.players.Length == 1) {
             enemyMain.player = enemyMain.players[0];
+            enemyMain.otherPlayer = null; // Não há outro jogador
+        } else {
+            // Se não houver jogadores, não fazemos nada e tentamos novamente na próxima iteração
         }
     }
 
