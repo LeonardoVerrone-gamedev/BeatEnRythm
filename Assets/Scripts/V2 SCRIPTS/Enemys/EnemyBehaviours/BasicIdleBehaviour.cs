@@ -45,6 +45,8 @@ public class BasicIdleBehaviour : MonoBehaviour
                 // Se um jogador foi encontrado, pare a Coroutine
                 StartCoroutine(Idle());
                 yield break; // Isso sai da Coroutine
+            }else{
+                enemyMain.InicializePlayer();
             }
             yield return new WaitForSeconds(1f); // Espera 1 segundo antes de tentar novamente
         }
@@ -64,6 +66,7 @@ public class BasicIdleBehaviour : MonoBehaviour
             enemyMain.otherPlayer = null; // Não há outro jogador
         } else {
             // Se não houver jogadores, não fazemos nada e tentamos novamente na próxima iteração
+            enemyMain.InicializePlayer();
         }
     }
 

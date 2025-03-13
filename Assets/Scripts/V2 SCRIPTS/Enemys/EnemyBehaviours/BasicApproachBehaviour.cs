@@ -9,8 +9,8 @@ public class BasicApproachBehaviour : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody rb;
 
-    private Transform[] players;
-    private Transform player;
+    [SerializeField]private Transform[] players;
+    [SerializeField]private Transform player;
     private Transform otherPlayer;
 
     [SerializeField] float attackRange = 2f;
@@ -27,12 +27,19 @@ public class BasicApproachBehaviour : MonoBehaviour
         player = enemyMain.player;
     }
 
+    void OnEnable(){
+        players = enemyMain.players;
+        player = enemyMain.player;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if(player != null){
             HandleApproaching();
             FlipCheck();
+        }else{
+            enemyMain.ChangeCurrentState(EnemyMain.EnemyState.Idle);
         }
     }
 
