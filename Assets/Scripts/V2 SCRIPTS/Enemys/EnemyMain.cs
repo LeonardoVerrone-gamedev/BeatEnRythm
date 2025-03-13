@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMain : MonoBehaviour
 {
     #region EnemyState variables
-    public enum EnemyState{Idle, Approach, Attack, Hurt, Die}
+    public enum EnemyState{Idle, Approach, Attack, Hurt}
     [SerializeField] private EnemyState currentState;
 
     [SerializeField]Component IdleComponent;
@@ -58,6 +58,9 @@ public class EnemyMain : MonoBehaviour
             case EnemyState.Attack:
                 SwitchToAttackBehaviour();
                 break;
+            case EnemyState.Hurt:
+                SwitchToHurtBehaviour();
+                break;
         }
     }
 
@@ -91,6 +94,16 @@ public class EnemyMain : MonoBehaviour
 
         approachBehaviour.enabled = false;
         idleBehaviour.enabled = false;
+    }
+
+    void SwitchToHurtBehaviour(){
+        lifeBehaviour.enabled = true;
+
+        approachBehaviour.enabled = false;
+        idleBehaviour.enabled = false;
+        foreach(Behaviour attack in attackBehaviours){
+            attack.enabled = false;
+        }
     }
 
     public void SetInvulnerable(bool invulnerable){

@@ -6,14 +6,14 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
 
     public bool isGrabbingSomeone;
-    public Enemy GrabbedEnemy;
+    public BasicLifeManagerBehaviour GrabbedEnemy;
 
     public void PerformAttack()
     {
         if (isGrabbingSomeone)
         {
             Debug.Log("Dano no inimigo agarrado");
-            GrabbedEnemy.TakeHit();
+            GrabbedEnemy._TakeHit();
         }
         else
         {
@@ -26,9 +26,9 @@ public class PlayerCombat : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(attackPoint.position, 1f, enemyLayer);
         foreach (var collider in colliders)
         {
-            if (collider.TryGetComponent<Enemy>(out var enemy))
+            if (collider.TryGetComponent<BasicLifeManagerBehaviour>(out var enemy))
             {
-                enemy.TakeHit();
+                enemy._TakeHit();
             }
         }
     }
@@ -38,13 +38,18 @@ public class PlayerCombat : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(attackPoint.position, 1f, enemyLayer);
         foreach (var collider in colliders)
         {
-            if (collider.TryGetComponent<Enemy>(out var enemy) && !isGrabbingSomeone)
+            if (collider.TryGetComponent<BasicLifeManagerBehaviour>(out var enemy) && !isGrabbingSomeone)
             {
                 isGrabbingSomeone = true;
                 GrabbedEnemy = enemy;
-                enemy.currentState = Enemy.State.Grabbed;
+                enemy.beGrabbed(attackPoint, this);
                 break; // Saia do loop após agarrar um inimigo
             }
         }
+    }
+
+    public void Soltar(){
+        isGrabbingSomeone = false;
+        GrabbedEnemy = null;
     }
 }

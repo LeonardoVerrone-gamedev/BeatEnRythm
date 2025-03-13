@@ -23,6 +23,10 @@ public class BasicAttack1Behaviour : MonoBehaviour
         StartCoroutine(PerformNormalAttack());
     }
 
+    void OnDisable(){
+        StopAllCoroutines();
+    }
+
 
     private IEnumerator PerformNormalAttack()
     {
@@ -32,6 +36,11 @@ public class BasicAttack1Behaviour : MonoBehaviour
             yield return null;
         }
         enemyMain.SetInvulnerable(false);
+        StartCoroutine(returnToIdle());
+    }
+
+    private IEnumerator returnToIdle(){
+        yield return new WaitForSeconds(1f);
         enemyMain.ChangeCurrentState(EnemyMain.EnemyState.Idle);
     }
 

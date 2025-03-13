@@ -24,17 +24,26 @@ public class BasicIdleBehaviour : MonoBehaviour
         StartCoroutine(Idle());
     }
 
+    void OnDisable(){
+        StopAllCoroutines();
+    }
+
     private IEnumerator Idle(){
         animator.SetFloat("Speed", 0f);
-        yield return new WaitForSeconds(Random.Range(2f, 3f));
-        if(enemyMain.player != null){
-            if (canApproach())
-            {
-                enemyMain.ChangeCurrentState(EnemyMain.EnemyState.Approach);
+        
+        while (true) {
+            yield return new WaitForSeconds(Random.Range(2f, 3f)); // Espera um tempo aleatório
+
+            if (enemyMain.player != null) {
+                Debug.Log("Can approach: " + canApproach());
+                if (canApproach()) {
+                    enemyMain.ChangeCurrentState(EnemyMain.EnemyState.Approach);
+                    yield break; // Sai da coroutine se o inimigo pode se aproximar
+                }
+            } else {
+                StartCoroutine(TrySetTarget());
+                yield break; // Sai da coroutine se não houver jogador
             }
-        }else{
-            StartCoroutine(TrySetTarget());
-            yield break;
         }
     }
 

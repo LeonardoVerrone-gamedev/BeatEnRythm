@@ -34,6 +34,10 @@ public class BasicGrabAndTrhowAttackBehaviour : MonoBehaviour
         StartCoroutine(PerformGrabAttack());
     }
 
+    void OnDisable(){
+        StopAllCoroutines();
+    }
+
     void Update(){
         if(SearchForOtherPlayer){
             Vector3 targetPos = new Vector3(transform.position.x, transform.position.y, otherPlayer.position.z);
@@ -52,6 +56,11 @@ public class BasicGrabAndTrhowAttackBehaviour : MonoBehaviour
 
     private IEnumerator PerformGrabAttack()
     {
+        Debug.Log("Jogador estava incapacitado?" + IsPlayerIncapacitated());
+        if(IsPlayerIncapacitated()){
+            enemyMain.ChangeCurrentState(EnemyMain.EnemyState.Idle);
+            yield break;
+        }
         enemyMain.SetInvulnerable(true);
         animator.SetTrigger("Attack");
         AttackCollision();
@@ -92,5 +101,11 @@ public class BasicGrabAndTrhowAttackBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool IsPlayerIncapacitated()
+    {
+        var playerControl = player.gameObject.GetComponent<PlayerControl>();
+        return !playerControl.isCapacitated();
     }
 }

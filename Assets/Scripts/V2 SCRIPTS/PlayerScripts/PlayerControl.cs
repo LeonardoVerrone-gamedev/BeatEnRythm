@@ -114,6 +114,6 @@ public class PlayerControl : MonoBehaviour
     }
 
     public bool isCapacitated(){
-        return !movement.isGrabbed || !falled; // || playerController.isGrabbingSomeone;
+        return !movement.isGrabbed && !falled && !combat.isGrabbingSomeone;
     }
 }

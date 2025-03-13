@@ -32,10 +32,14 @@ public class BasicApproachBehaviour : MonoBehaviour
         player = enemyMain.player;
     }
 
+    void OnDisable(){
+        StopAllCoroutines();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(player != null){
+        if(player != null && canApproach()){
             HandleApproaching();
             FlipCheck();
         }else{
@@ -88,5 +92,10 @@ public class BasicApproachBehaviour : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    public bool canApproach(){
+        var playerControl = enemyMain.player.GetComponent<PlayerControl>();
+        return playerControl.isCapacitated();
     }
 }
