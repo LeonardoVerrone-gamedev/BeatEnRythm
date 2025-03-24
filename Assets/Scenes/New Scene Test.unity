@@ -687,7 +687,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 1232150288}
   isGrabbed: 0
   hitsTaken: 0
-  MaxHitBeforeFall: 0
+  MaxHitBeforeFall: 3
 --- !u!114 &356443807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2172,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 446533805}
   isGrabbed: 0
   hitsTaken: 0
-  MaxHitBeforeFall: 0
+  MaxHitBeforeFall: 3
 --- !u!114 &1410404431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2743,7 +2743,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 507619259}
   isGrabbed: 0
   hitsTaken: 0
-  MaxHitBeforeFall: 0
+  MaxHitBeforeFall: 3
 --- !u!114 &1959232724
 MonoBehaviour:
   m_ObjectHideFlags: 0
